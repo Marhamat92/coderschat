@@ -22,7 +22,7 @@ function Welcome({ navigation }) {
       >
         <Text style={tw`text-[#0a065c] text-5xl font-bold`}>CodersChat</Text>
         <Button
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("Login")}
           titleStyle={tw`text-[#0a065c] font-bold text-lg`}
           buttonStyle={tw`bg-white py-2 px-2 rounded-md mt-2`}
           title="Get Started"
