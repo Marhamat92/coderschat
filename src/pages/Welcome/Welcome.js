@@ -12,7 +12,13 @@ import { globalStyles } from "../../styles/global";
 import { image } from "../../assets/images/beginimage.png";
 import Button from "../../components/Button/Button";
 
+
+
+
 function Welcome({ navigation }) {
+
+
+
   return (
     <SafeAreaView>
       <ImageBackground
@@ -33,3 +39,7 @@ function Welcome({ navigation }) {
 }
 
 export default Welcome;
+
+
+
+
