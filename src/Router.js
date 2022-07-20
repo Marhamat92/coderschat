@@ -37,8 +37,23 @@ export default function App() {
         name="Register" 
         component={Register}/> 
          <Stack.Screen 
+        
         options={{
-          headerShown: false,
+        headerLeft: null,
+        headerTitle: "Chat Rooms",
+        headerTitleAlign: "center",
+        headerTint:false,
+        headerTitleStyle: {
+          fontSize: 24,
+          fontWeight: "bold",
+          color: "#ff6f00",
+          
+        },
+
+        headerStyle: {
+          backgroundColor: "#fff",
+        },
+         
         }}
         name="ChatRooms" 
         component={ChatRooms}/> 
