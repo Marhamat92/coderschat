@@ -10,13 +10,7 @@ export async function register_user(name, email, password) {
         "email": email,
         "password": password
       }
-  }).catch(error => {
-    console.log(error.message);
-    console.log(error.response);
-    console.log(error.request);
-    console.log(error.response.data)
-    }
-    );
+  })
   return response.data;
 } 
 

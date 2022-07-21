@@ -46,6 +46,7 @@ function Register({ navigation }) {
         })
         .catch((err) => {
           Alert.alert("Error has occured");
+          console.log(err,"err deneme");
         });
       Alert.alert("Success", "You are registered");
       navigation.navigate("Login");

@@ -12,10 +12,14 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { useForm, Controller } from "react-hook-form";
 import { FontAwesome } from "@expo/vector-icons";
+import { login_user } from '../../services/allServices';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 function Login({navigation}) {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [token, setToken] = React.useState(null);
 
   const {
     register,
@@ -32,13 +36,18 @@ function Login({navigation}) {
   }); 
 
 const onLogin = (data) => {
-  if (data.email ==="test@test.com" && data.password === "test") {
-    Alert.alert("Success", "You are logged in");
+  login_user(data.email, data.password )
+ 
+  .then((res)=>{
+  
+    setToken(res.access_token);
+    AsyncStorage.setItem("token", res.access_token);
     navigation.navigate("ChatRooms");
-  }
-  else {
-    Alert.alert("Error", "Invalid email or password");
-  }
+  })
+  .catch((err)=>{
+    Alert.alert("Error has occured")
+    console.log(err)
+  })
 }
 
 
