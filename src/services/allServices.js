@@ -25,8 +25,8 @@ export async function login_user(email, password) {
     
     }
 
-export async function createRoom() {
-    const response = await api.post('/room/create');
+export async function createRoom(name, color) {
+    const response = await api.post('/room/create', {content:{'room_name':name, 'room_color':color}});
     return response.data;
     }
 
@@ -36,7 +36,6 @@ export async function getRoom(id) {
     }    
 
 export async function getRooms(){
-    const response = awa
-
-
+    const response = await api.get('room/get/list')
+    return response.data;
 }    
