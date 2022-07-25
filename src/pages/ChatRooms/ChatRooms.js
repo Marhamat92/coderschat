@@ -8,15 +8,16 @@ import {
   View,
 } from "react-native";
 import tw from "twrnc";
-import { getRooms, createRoom } from "../../services/allServices";
+import { getRooms, createRoom,getRoom } from "../../services/allServices";
 import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import ModalInput from "../../components/Input/ModalInput";
 import { useForm, Controller } from "react-hook-form";
+import { FontAwesome } from '@expo/vector-icons'; 
 
-function Rooms() {
+function Rooms({navigation,route}) {
   const {
     control,
     handleSubmit,
@@ -27,6 +28,8 @@ function Rooms() {
       room_color: "",
     },
   });
+ 
+  
 
   const [rooms, setRooms] = React.useState([]);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
@@ -36,8 +39,9 @@ function Rooms() {
     createRoom(data.room_name, data.room_color)
       .then((res) => {
         console.log(res);
-      onGetRooms();
+       onGetRooms();
         setIsModalVisible(false);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -55,19 +59,26 @@ function Rooms() {
       });
   };
 
+
   useEffect(() => {
     onGetRooms();
   }, []);
 
   const roomList = ({ item }) => (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("ChatRoomInside", { id: item.id });
+      }
+      }
       style={tw`bg-${item.content?.room_color}-500  h-40 w-1/2 rounded-md  items-center justify-center border border-gray-300`}
     >
       <Text style={tw`text-black text-3xl font-bold`}>
         {item.content?.room_name}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
+
+  
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -76,7 +87,7 @@ function Rooms() {
   return (
     <View style={tw`absolute h-full`}>
       <FlatList
-        columnWrapperStyle={tw`px-2 flex space-x24 `}
+        columnWrapperStyle={tw`px-2 flex  `}
         numColumns={2}
         data={rooms}
         renderItem={roomList}
