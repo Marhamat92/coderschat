@@ -20,6 +20,7 @@ export async function login_user(email, password) {
             "Content-Type": "application/x-www-form-urlencoded",
         },
      });
+     console.log(res.data.access_token);
      api.defaults.headers.Authorization = `Bearer ${res.data.access_token}`;
      return res.data;
     
@@ -35,7 +36,9 @@ export async function getRoom(id) {
     return response.data;
     }    
 
-export async function getRooms(){
+export async function getRooms(navigation){
+    await login_user("bnjkb", "bnjkb")
     const response = await api.get('room/get/list')
     return response.data;
+     
 }    

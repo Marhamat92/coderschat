@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   Text,
@@ -16,8 +17,10 @@ import Input from "../../components/Input/Input";
 import ModalInput from "../../components/Input/ModalInput";
 import { useForm, Controller } from "react-hook-form";
 import { FontAwesome } from '@expo/vector-icons'; 
+import useAuthStore from "../../store/authStore";
+import { useIsFocused } from "@react-navigation/native";
 
-function Rooms({navigation,route}) {
+function Rooms({navigation}) {
   const {
     control,
     handleSubmit,
@@ -30,9 +33,13 @@ function Rooms({navigation,route}) {
   });
  
   
+  const isLoggin = useAuthStore((state) => state.isLoggin);
+  console.log("isLoggin2", isLoggin);
 
   const [rooms, setRooms] = React.useState([]);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const setIsLoggin = useAuthStore(state => state.setIsLoggin);
+  const isFocused = useIsFocused();
 
   const onSubmit = (data) => {
    
@@ -51,10 +58,16 @@ function Rooms({navigation,route}) {
   const onGetRooms = () => {
     getRooms()
       .then((res) => {
+        console.log("res",res)
+        if(res.status=="user_not_found"){
+          setIsLoggin(false)
+          navigation.navigate("Login")
+        }
         setRooms(res);
-        console.log(res);
+
       })
       .catch((err) => {
+        console.log("err",err)
         console.log(err);
       });
   };
@@ -62,7 +75,7 @@ function Rooms({navigation,route}) {
 
   useEffect(() => {
     onGetRooms();
-  }, []);
+  }, [navigation,isFocused]);
 
   const roomList = ({ item }) => (
     <TouchableOpacity

@@ -12,14 +12,17 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { useForm, Controller } from "react-hook-form";
 import { FontAwesome } from "@expo/vector-icons";
-import { login_user } from '../../services/allServices';
+// import { login_user } from '../../services/allServices';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuthStore from '../../store/authStore';
+
 
 
 
 function Login({navigation}) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [token, setToken] = React.useState(null);
+  const setIsLoggin = useAuthStore(state => state.setIsLoggin);
 
   const {
     register,
@@ -33,15 +36,15 @@ function Login({navigation}) {
       email: "",
       password: "",
     },
-  }); 
+  });
 
-const onLogin = (data) => {
-  login_user(data.email, data.password )
- 
-  .then((res)=>{
+const onLogin =  (data) => {
+  login_user(data.email, data.password)
+  .then( async(res)=>{
   
     setToken(res.access_token);
-    AsyncStorage.setItem("token", res.access_token);
+    await AsyncStorage.setItem("user_token", res.access_token);
+    setIsLoggin(true)
     navigation.navigate("ChatRooms");
   })
   .catch((err)=>{
@@ -75,6 +78,7 @@ const onLogin = (data) => {
               inputStyle={tw` border-r-transparent border-t-transparent border-l-transparent   border-b-white border mx-2 py-2`}
               placeholder="Enter your email..."
               value={value}
+              
             />
           )}
           name="email"
